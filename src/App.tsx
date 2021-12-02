@@ -1,26 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react'
+import Header from '@/components/Header-bar'
+import { FormattedMessage, IntlProvider } from "react-intl";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+        const [locale, setLocale] = useState(undefined)
+        const [lang, setLang] = useState('en')
+        useEffect(async() => {
+            const resp = await fetch(`./lang/${lang}.json`)
+            const data = await resp.json()
+            setLocale(data)
+          },[lang])
+      return (
+        <IntlProvider  messages={locale}>
+            <Header />
+        </IntlProvider>
+      );
+    }
 
-export default App;
+  
+  export default App;
